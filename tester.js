@@ -38,7 +38,7 @@ function runInSequence(tests) {
       testFunction(test)(() => resolve(), checker(name(test), reject));
     }
     else {
-      previousTests[previousTests.length - 1].then(testFunction(test)(() => resolve(), checker(name(test), reject)));
+      previousTests[previousTests.length - 1].then(() => testFunction(test)(() => resolve(), checker(name(test), reject)));
     }
   })], []))
          .then(settledTests => reportTestRun(settledTests, 0, 0));
