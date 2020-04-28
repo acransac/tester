@@ -10,29 +10,38 @@ function name(test) {
   return test[1];
 }
 
-function reportTestRun(settledTests, successCount, failureCount) {
-  if (settledTests.length === 0) {
-    return console.log(colourText(`\n${successCount} / ${successCount + failureCount} test(s) passed`,
-                                  failureCount === 0 ? "green" : "red"));
-  }
-  else if (settledTests[0].status === "fulfilled") {
-    return reportTestRun(settledTests.slice(1), successCount + 1, failureCount);
-  }
-  else {
-    console.log(colourText(settledTests[0].reason, "yellow"));
+function reportTestRun(settledTests, testSuiteName) {
+  console.log("--------------------");
+  console.log(testSuiteName ? testSuiteName : "Test Suite:");
 
-    return reportTestRun(settledTests.slice(1), successCount, failureCount + 1);
-  }
+  const reporter = (settledTests, successCount, failureCount) => {
+    if (settledTests.length === 0) {
+      console.log(colourText(`\n    ${successCount} / ${successCount + failureCount} test(s) passed`,
+                             failureCount === 0 ? "green" : "red"));
+
+      return console.log("--------------------");
+    }
+    else if (settledTests[0].status === "fulfilled") {
+      return reporter(settledTests.slice(1), successCount + 1, failureCount);
+    }
+    else {
+      console.log(colourText(`    ${settledTests[0].reason}`, "yellow"));
+
+      return reporter(settledTests.slice(1), successCount, failureCount + 1);
+    }
+  };
+
+  return reporter(settledTests, 0, 0);
 }
 
-function run(tests) {
+function run(tests, testSuiteName) {
   return Promise.allSettled(tests.map(test => new Promise((resolve, reject) => {
     testFunction(test)(() => resolve(), checker(name(test), reject));
   })))
-         .then(settledTests => reportTestRun(settledTests, 0, 0));
+         .then(settledTests => reportTestRun(settledTests, testSuiteName));
 }
 
-function runInSequence(tests) {
+function runInSequence(tests, testSuiteName) {
   return Promise.allSettled(tests.reduce((previousTests, test) => [...previousTests, new Promise((resolve, reject) => {
     if (previousTests.length === 0) {
       testFunction(test)(() => resolve(), checker(name(test), reject));
@@ -41,7 +50,7 @@ function runInSequence(tests) {
       previousTests[previousTests.length - 1].then(() => testFunction(test)(() => resolve(), checker(name(test), reject)));
     }
   })], []))
-         .then(settledTests => reportTestRun(settledTests, 0, 0));
+         .then(settledTests => reportTestRun(settledTests, testSuiteName));
 }
 
 function checker(testName, fail) {
