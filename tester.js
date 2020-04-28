@@ -26,14 +26,14 @@ function reportTestRun(settledTests, successCount, failureCount) {
 }
 
 function run(tests) {
-  Promise.allSettled(tests.map(test => new Promise((resolve, reject) => {
+  return Promise.allSettled(tests.map(test => new Promise((resolve, reject) => {
     testFunction(test)(() => resolve(), checker(name(test), reject));
   })))
          .then(settledTests => reportTestRun(settledTests, 0, 0));
 }
 
 function runInSequence(tests) {
-  Promise.allSettled(tests.reduce((previousTests, test) => [...previousTests, new Promise((resolve, reject) => {
+  return Promise.allSettled(tests.reduce((previousTests, test) => [...previousTests, new Promise((resolve, reject) => {
     if (previousTests.length === 0) {
       testFunction(test)(() => resolve(), checker(name(test), reject));
     }
