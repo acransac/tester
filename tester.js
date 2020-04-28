@@ -12,7 +12,7 @@ function name(test) {
 
 function reportTestRun(settledTests, testSuiteName) {
   console.log("--------------------");
-  console.log(testSuiteName ? testSuiteName : "Test Suite:");
+  console.log(testSuiteName ? `${testSuiteName}:` : "Test Suite:");
 
   const reporter = (settledTests, successCount, failureCount) => {
     if (settledTests.length === 0) {
