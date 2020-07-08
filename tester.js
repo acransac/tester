@@ -66,22 +66,6 @@ function checker(testName, fail) {
   return check;
 }
 
-function sameSequences(sequenceA, sequenceB) {
-  const equalSequences = (sequenceA, sequenceB) => {
-    if (sequenceA.length === 0) {
-      return true;
-    }
-    else if (sequenceA[0] !== sequenceB[0]) {
-      return false;
-    }
-    else {
-      return equalSequences(sequenceA.slice(1), sequenceB.slice(1));
-    }
-  };
-
-  return sequenceA.length === sequenceB.length && equalSequences(sequenceA, sequenceB);
-}
-
 function colourText(text, colour) {
   switch (colour) {
     case 'black': return `\u001b[30m${text}\u001b[0m`;
@@ -95,4 +79,4 @@ function colourText(text, colour) {
   }
 }
 
-module.exports = { makeTest: makeTest, run: run, runInSequence: runInSequence, sameSequences: sameSequences };
+module.exports = { makeTest: makeTest, run: run, runInSequence: runInSequence };
