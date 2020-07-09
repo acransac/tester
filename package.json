@@ -1,11 +1,19 @@
 {
-  "name": "tester",
-  "version": "0.0.1",
-  "description": "A simple test framework",
+  "name": "@acransac/tester",
+  "version": "1.0.0",
+  "description": "A simple test runner",
   "main": "tester.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No test specified\""
   },
   "author": "Adrien Cransac",
-  "license": "ISC"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acransac/tester.git"
+  },
+  "bugs": {
+    "url": "https://github.com/acransac/tester/issues"
+  },
+  "homepage": "https://github.com/acransac/tester"
 }
