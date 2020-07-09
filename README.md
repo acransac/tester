@@ -39,15 +39,15 @@ Example:
 
 ```javascript
     const Test = require('@acransac/tester');
-    
+
     function upperCase(finish, check) {
       return finish(check("a".toUpperCase() === "A"));
     }
-    
+
     function oddNumber(finish, check) {
       return finish(check(2 % 2 > 0));
     }
-    
+
     Test.run([
       Test.makeTest(upperCase, "Upper Case"),
       Test.makeTest(oddNumber, "Odd Number")
@@ -59,7 +59,7 @@ Example:
     --------------------
     Elementary Checks:
         Test Odd Number failed!
-    
+
         1 / 2 test(s) passed
     --------------------
 ```
